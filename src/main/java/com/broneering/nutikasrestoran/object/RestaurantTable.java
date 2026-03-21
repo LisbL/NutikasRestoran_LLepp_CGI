@@ -7,7 +7,7 @@ public class RestaurantTable {
 
     private long id;
     private int size;
-    public boolean occupied;
+    private boolean occupied;
     private List<String> features;
     //Asukoha jaoks koordinaadid
     private int x;
@@ -50,6 +50,9 @@ public class RestaurantTable {
         return y;
     }
 
+    public boolean isOccupied() {
+        return occupied;
+    }
 
     public List<String> getFeatures() {
         return features;

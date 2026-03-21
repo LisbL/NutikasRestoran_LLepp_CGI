@@ -27,7 +27,7 @@ public class TableController {
     public TableController() {
         Random random = new Random();
 
-        for (int i = 0; i <= 10; i++) {
+        for (int i = 0; i < 10; i++) {
 
             //Määran suvalise suuruse 2, 4, 6 ja 8 vahel
             int size = (random.nextInt(4) + 1)*2;
@@ -67,10 +67,10 @@ public class TableController {
     // You can specify if the param is required and set default values if needed
     public List<RestaurantTable> getTables(
             @RequestParam(required = false) Integer size,
+            @RequestParam(required = false) String zone,
+            @RequestParam(required = false) List<String> features,
             @RequestParam(required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) LocalDateTime startTime) {
-        if (size == null) {
-            return tables; //Näitan kõike
-        }
+        int targetSize = (size == null) ? 0 : size;
 
         LocalDateTime start = (startTime == null) ? LocalDateTime.now() : startTime;
         LocalDateTime end = start.plusHours(2); // 2h külastust
@@ -80,13 +80,14 @@ public class TableController {
         return tables.stream()
                 //Kas lauas on piisavalt kohti
                 .filter(table -> table.getSize() >= size)
-                //Kas laud on vaba
-                .filter(table -> !table.occupied)
                 //Kas laud on vaba ajavahemikus?
                 .filter(table -> isTableAvailable(table.getId(), start, end))
-                //Lisame sorteerimise sobilikumast lauast, vähem sobilikumani
-                .sorted(Comparator.comparingInt(table -> calculateScore(table, size, table.getZone(), table.getFeatures())))
-                //Leiame sobivad lauad
+                //Lisan sorteerimise sobilikumast lauast, vähem sobilikumani, kasutades skoori
+                //Teisena asukoht, et laudade järjekord oleks stabiilne
+                .sorted(Comparator.comparingInt((RestaurantTable table) -> calculateScore(table, targetSize, zone, features))
+                        .thenComparingInt(RestaurantTable::getX)
+                        .thenComparingInt(RestaurantTable::getY))
+                //Leian sobivad lauad
                 .collect(Collectors.toList());
 
     }
@@ -109,7 +110,7 @@ public class TableController {
         int score = 0;
 
         // tsooni eelistus - kui ei kattu +5p
-        if (targetZone != null &&  !targetZone.equalsIgnoreCase(table.getZone())) {
+        if (targetZone != null && !targetZone.isEmpty() &&  !targetZone.equalsIgnoreCase(table.getZone())) {
             score += 5;
         }
         //omaduste kontroll +2p

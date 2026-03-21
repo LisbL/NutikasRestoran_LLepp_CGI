@@ -26,6 +26,22 @@
     <h1>Restorani saaliplaan</h1>
     <button onclick="loadTables()">Uuenda vaadet</button>
         <div id="floor-plan"></div>
+    <input type="number" id="sizeInput">
+    <select id="zoneInput">
+        <option value="">Kõik tsoonid</option>
+        <option value="Sisesaal">Sisesaal</option>
+        <option value="Terrass">Terrass</option>
+        <option value="Privaatruum">Privaatruum</option>
+    </select>
+    <label for="timeInput">Broneeringu aeg:</label>
+    <input type="datetime-local" id="timeInput">
+
+    <div id="featuresInput">
+        <label><input type="checkbox" value="Akna all"> Akna all</label>
+        <label><input type="checkbox" value="Pistikupesaga"> Pistikupesaga</label>
+        <label><input type="checkbox" value="Vaikne ala"> Vaikne ala</label>
+    </div>
+
 
     <script>
         //küsin serverilt andmed
@@ -33,9 +49,38 @@
         //tekitan iga laua jaoks uue kasti ja paneme selle õigesse ruutu
 
         function loadTables() {
+            //Koostan params objeckti, et saaksime sinna asju lisada
+            const params = new URLSearchParams();
+            //Loen väärtused HTML-i sisenditest
+            const size = document.getElementById('sizeInput').value;
+            const zone = document.getElementById('zoneInput').value;
+            //Leian kõik valitud märkeruudud
+            const selectedFeatures = Array.from(document.querySelectorAll('#featuresInput input:checked'))
+                .map(cb => cb.value);
+
+            //Kellaaeg
+            const startTime = document.getElementById('timeInput').value;
+            //Kontrollin mineviku sisestamist
+            if (startTime) {
+                const selectedDate = new Date(startTime);
+                const now = new Date();
+                if (selectedDate < now) {
+                    alert("palun vali aeg tulevikus!");
+                    return;
+                }
+                params.append('startTime', startTime);
+            }
+
+            //Lisan väärtused siis, kui nad on olemas
+            if (size) params.append('size', size);
+            if (zone) params.append('zone', zone);
+            selectedFeatures.forEach(f => params.append('features', f));
+
+            const url = `/api/tables?${params.toString()}`;
+            console.log("Päringu aadress: ", url);
             const floorPlan = document.getElementById('floor-plan');
 
-            fetch('/api/tables')
+            fetch(url)
                 .then(response => response.json())
                 .then(tables => {
                     //Platsi puhastus

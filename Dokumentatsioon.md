@@ -47,3 +47,9 @@ järgi.
 
 Nüüd on vaja kuvada saaliplaan ka veebilehel. Kõigepealt lõin index.html'i, kuhu saaliplaan peaks ennast kuvama. Siis lisasin natuke ajutiselt css'i koodi ning lõpuks scripti.
 Ma pole väga kogenud JS kirjutamises, seega selles osas küsisin rohekm abi Gemini'lt. 
+
+Nüüd on vaja lisada HTML'i sisendväljad, kuna kuigi vaade on olemas, sisi meil pole viisi broneerida või otsida sobilikke laudu. Selleks peaks olema 3 sisendparameetrit:
+inimeste arv, eelistatud tsoon, soovitud omadused ning lõpuks kellaaeg. Selleks küsisin veelkord Gemini käest abi. Selle käigus mõtlesin, et mõtekam oleks
+vahetada input asemel select tag'i, kui inimene peaks valima tsooni. Kuna otsustasin, et juhul kui inimene ei valinud mingit kindlat tsooni,
+siis ei võeta karistuspunkte arvesse ning muutsin calculateScore'i meetodi kontrolli. Kontrollisin, kas HTML töötab, aga siis leidsin, et midagi läks katki.
+Küsisin Gemini käest ning leidsime, et viga on tableController'is, sest ta ei arvestanud kasutaja sisenditega. Pärast seda parandasin JS-i, mis ei võtnud algul arvesse kellaaega ja tsooni.
