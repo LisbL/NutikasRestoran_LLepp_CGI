@@ -21,3 +21,12 @@ Alustasin lihtsamast ehk laua suurusest. Selleks kasutasin RequestParam, mille a
 ning filtreerin .stream()-i funktsiooniga sobilikud lauad.
 Jätsin alles siis nimekijra, kus kõige esimene laud on soovitatiuim ja järgnevad lauad on siis vähem soovitatud.
 
+Mulle tundub kõige raskema osana kellaajaga arvestamine. Selleks küsisin abi Gemini'lt kust peaksin alustama, ta juhendas,
+et esialgu võiks uue klassi luua nimega Reservation. Ma kaalutlesin, kas oleks parem lisada ReservationTable'i objekti uue välja
+nimega Reservation või siis hoida globaalset nimekirja TableControlleris või eraldi teenuses. Küsisin nõu Google Gemini'lt
+ning ta vastas, et paindlikum oleks globaalne nimekiri, mis ühtlasi soosib ka kodeerimises "loose coupling" reeglit. Seega 
+otsustasin antud idee suunas liikuda. Seejärel pidin välja mõtlema, kuidas genereerida suvalised kellaajad broneeringutele.
+Kui laud luuakse staatuse "occupied", siis lisan talle algus-ja lõpukellaaja. Selleks kasutasin LocalDateTime'i. Et kontrollida, kas
+uue broneeringu tegemisel kattub ta vanaga, pidin paika panema loogika: "Kui uue broneeringu algus on varasem kui olemasoleva lõpp
+ning uue lõpp on hilisem kui olemasoleva algus, siis uue broneeringu tegemine ei sobi". Tehes selles funktsiooni, sain selle kergemini
+implementeerida getTable meetodi, kus lisasin filtri laua ajalisele olemasolule.
