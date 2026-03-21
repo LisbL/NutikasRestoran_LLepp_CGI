@@ -28,16 +28,24 @@ public class TableController {
         Random random = new Random();
 
         for (int i = 0; i <= 10; i++) {
+
             //Määran suvalise suuruse 2, 4, 6 ja 8 vahel
             int size = (random.nextInt(4) + 1)*2;
             //Juhuslikult kas broneeritud või mitte
             boolean occupied = random.nextBoolean();
+            //Laua asukoht
+            int x = (i % 5) + 1; // nr 1-5
+            int y = (i / 5) + 1; // Esimese 5 puhul 1, järgmise 2 jne
+
             //Loon uue laua objekti
-            RestaurantTable table = new RestaurantTable(i, size, occupied);
+            RestaurantTable table = new RestaurantTable(i+1, size, occupied, x, y);
 
             //Lisan talle juhuslikult omadusi ning lõpuks listi
             if (random.nextBoolean()) {
                 table.getFeatures().add("Akna all");
+            }
+            if (random.nextBoolean()) {
+                table.getFeatures().add("Pistikupesaga");
             }
 
             if (occupied) {
@@ -95,5 +103,26 @@ public class TableController {
             }
         }
         return true; //Kattuvusi polnud, laud sobib broneeringuks
+    }
+
+    private int calculateScore(RestaurantTable table, int targetSize, String targetZone, List<String> targetFeatures) {
+        int score = 0;
+
+        // tsooni eelistus - kui ei kattu +5p
+        if (targetZone != null &&  !targetZone.equalsIgnoreCase(table.getZone())) {
+            score += 5;
+        }
+        //omaduste kontroll +2p
+        if (targetFeatures != null) {
+            for (String feature: targetFeatures) {
+                if (!table.getFeatures().contains(feature)) {
+                    score+=2;
+                }
+            }
+        }
+        //suuruse vahe +1p (iga üleliigse koha kohta)
+        score += (table.getSize() - targetSize);
+        return score;
+
     }
 }

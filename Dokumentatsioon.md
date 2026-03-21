@@ -30,3 +30,15 @@ Kui laud luuakse staatuse "occupied", siis lisan talle algus-ja lõpukellaaja. S
 uue broneeringu tegemisel kattub ta vanaga, pidin paika panema loogika: "Kui uue broneeringu algus on varasem kui olemasoleva lõpp
 ning uue lõpp on hilisem kui olemasoleva algus, siis uue broneeringu tegemine ei sobi". Tehes selles funktsiooni, sain selle kergemini
 implementeerida getTable meetodi, kus lisasin filtri laua ajalisele olemasolule.
+
+Saaliplaani jaoks pean lisama väljad, mille järgi arvuti teaks luua struktuur, kus mis laud asetseb (x, y). Mõtlesin algul koordinaadid
+juhuslikult genereerida, kuid siis tekkis küsimus, kuidas kontrollida, et antud koordinaadid on juba olemas. Selle asemel otsustasin teha
+kindla plaani, kus mis laud asetseb, sest see tundub programmi puhul loogilisem, lauad ei peaks iga kord vahetuma, aga broneeringud küll.
+Lisasin x ja y tsüklisse ning mõtisklesin, kuidas tsoonidega arvestada. Küsisin suunavaid küsimusi Gemini'lt ja ta soovitas
+ridade kaupa liigitada tsoonid. Selleks pidin aga RestaurantTable klassi looma uue välja nimega "zone". Mõtlesin, et võiksin proovida
+nutikamat lahendust, ehk anda skoorid igale lauale, mis sobivad inimese kirjeldatud kriteeriumitele. See variant tundus põnevam. Ma ei osanud ise alustada, seega küsisin
+uuesti nõu Gemini käest, kuidas tema sellele läheneks. Eesmärgiks oleks leida laud, millel on kõige vähem karistuspunkte. Reeglid oleksid järgmised:
+- Vale tsoon: +5 punkti
+- Puuduolev omadus: +2 punkti
+- Suuruse vahe: +1 iga üleliigse koha kohta.
+Selleks lõin abimeetodi calculateScore.
