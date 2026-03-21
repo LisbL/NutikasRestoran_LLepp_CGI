@@ -85,7 +85,7 @@ public class TableController {
                 //Kas laud on vaba ajavahemikus?
                 .filter(table -> isTableAvailable(table.getId(), start, end))
                 //Lisame sorteerimise sobilikumast lauast, vähem sobilikumani
-                .sorted(Comparator.comparingInt(RestaurantTable::getSize))
+                .sorted(Comparator.comparingInt(table -> calculateScore(table, size, table.getZone(), table.getFeatures())))
                 //Leiame sobivad lauad
                 .collect(Collectors.toList());
 

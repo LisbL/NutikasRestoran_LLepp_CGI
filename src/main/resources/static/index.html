@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Restorani Saaliplaan</title>
+    <style>
+        /*Lisan CSS-i hiljem*/
+        #floor-plan {
+            display: grid;
+            gap: 10px;
+            border: 2px solid;
+            padding: 20px;
+            grid-template-columns: repeat(5, 1fr);/*1fr - fractional unit, muutub akna suurusega*/
+            grid-template-rows: repeat(2, 100px);
+        }
+        .table-box {
+            border: 1px solid black;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background-color: azure;
+        }
+    </style>
+</head>
+    <body>
+    <h1>Restorani saaliplaan</h1>
+    <button onclick="loadTables()">Uuenda vaadet</button>
+        <div id="floor-plan"></div>
+
+    <script>
+        //küsin serverilt andmed
+        //puhasta vana saaliplaani (et väldiks uute laudade joonistamist vanade peale)
+        //tekitan iga laua jaoks uue kasti ja paneme selle õigesse ruutu
+
+        function loadTables() {
+            const floorPlan = document.getElementById('floor-plan');
+
+            fetch('/api/tables')
+                .then(response => response.json())
+                .then(tables => {
+                    //Platsi puhastus
+                    floorPlan.innerHTML = '';
+
+                    //käin kõik lauad läbi
+                    tables.forEach(table => {
+                        //loon uue div-elemendi
+                        const tableDiv = document.createElement('div');
+                        tableDiv.classList.add('table-box');
+
+                        //Panen kirja laua info
+                        tableDiv.innerHTML = `Laud ${table.id}<br>Kohti: ${table.size}`;
+
+                        //Määran asukoha ruudustikus vastavalt Java koodist x ja y'le
+                        tableDiv.style.gridColumn = table.x;
+                        tableDiv.style.gridRow = table.y;
+
+                        //Muudan värvi vastavalt laua broneeringule
+                        if (table.occupied) {
+                            tableDiv.style.backgroundColor = '#FF0000' //Punane ehk broneeritud
+                        }else {
+                            tableDiv.style.backgroundColor = '#008000' //Roheline ehk vaba
+                        }
+
+                        floorPlan.appendChild(tableDiv);
+                    });
+                });
+        }
+        loadTables();
+    </script>
+
+    </body>
+</html>

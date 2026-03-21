@@ -41,4 +41,9 @@ uuesti nõu Gemini käest, kuidas tema sellele läheneks. Eesmärgiks oleks leid
 - Vale tsoon: +5 punkti
 - Puuduolev omadus: +2 punkti
 - Suuruse vahe: +1 iga üleliigse koha kohta.
-Selleks lõin abimeetodi calculateScore.
+
+Selleks lõin abimeetodi calculateScore. Lisasin selle getTable meetodi Comparatorisse, et selle asemel, et sorteerida suuruse järjekorras, sorteerib nüüd skooride
+järgi.
+
+Nüüd on vaja kuvada saaliplaan ka veebilehel. Kõigepealt lõin index.html'i, kuhu saaliplaan peaks ennast kuvama. Siis lisasin natuke ajutiselt css'i koodi ning lõpuks scripti.
+Ma pole väga kogenud JS kirjutamises, seega selles osas küsisin rohekm abi Gemini'lt. 
