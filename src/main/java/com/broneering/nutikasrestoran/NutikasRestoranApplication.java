@@ -6,8 +6,8 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 @SpringBootApplication
 public class NutikasRestoranApplication {
 
-	public static void main(String[] args) {
-		SpringApplication.run(NutikasRestoranApplication.class, args);
-	}
+    public static void main(String[] args) {
+        SpringApplication.run(NutikasRestoranApplication.class, args);
+    }
 
 }
