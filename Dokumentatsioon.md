@@ -1,5 +1,6 @@
-Dokumentatsioon :)
-Käivitamine:...
+Dokumentatsioon:
+Käivitamine: Käivita fail NutikasRestoranApplication. Mine leheküljele http://localhost:8080/. Seal näed broneeritud laudu
+punastena ning vabu rohelistena. Vali sobilikud filtrid ning uuenda vaadet. Parim valik on hele aqua värvi.
 
 Programmi loomisprotsess:
 Ma pole varem Spring Booti kasutanud, seega ennem sel nädalal tegelesin selle selgeks saamisega.
@@ -38,8 +39,8 @@ Lisasin x ja y tsüklisse ning mõtisklesin, kuidas tsoonidega arvestada. Küsis
 ridade kaupa liigitada tsoonid. Selleks pidin aga RestaurantTable klassi looma uue välja nimega "zone". Mõtlesin, et võiksin proovida
 nutikamat lahendust, ehk anda skoorid igale lauale, mis sobivad inimese kirjeldatud kriteeriumitele. See variant tundus põnevam. Ma ei osanud ise alustada, seega küsisin
 uuesti nõu Gemini käest, kuidas tema sellele läheneks. Eesmärgiks oleks leida laud, millel on kõige vähem karistuspunkte. Reeglid oleksid järgmised:
-- Vale tsoon: +5 punkti
-- Puuduolev omadus: +2 punkti
+- Vale tsoon: +10 punkti
+- Puuduolev omadus: +5 punkti
 - Suuruse vahe: +1 iga üleliigse koha kohta.
 
 Selleks lõin abimeetodi calculateScore. Lisasin selle getTable meetodi Comparatorisse, et selle asemel, et sorteerida suuruse järjekorras, sorteerib nüüd skooride
@@ -53,3 +54,12 @@ inimeste arv, eelistatud tsoon, soovitud omadused ning lõpuks kellaaeg. Selleks
 vahetada input asemel select tag'i, kui inimene peaks valima tsooni. Kuna otsustasin, et juhul kui inimene ei valinud mingit kindlat tsooni,
 siis ei võeta karistuspunkte arvesse ning muutsin calculateScore'i meetodi kontrolli. Kontrollisin, kas HTML töötab, aga siis leidsin, et midagi läks katki.
 Küsisin Gemini käest ning leidsime, et viga on tableController'is, sest ta ei arvestanud kasutaja sisenditega. Pärast seda parandasin JS-i, mis ei võtnud algul arvesse kellaaega ja tsooni.
+Lisasin vajaminevad väljad ning nüüd lisan kalendri miinimumaja kohe lehe laadimisel.
+
+Kuna lehel polnud näha, millist lauda kõige rohkem soovitan, siis otsustasin, et võiks siis paremad lauad ära värvida. Selleks lisasin välja klassi RestaurantTable score ning muutsin calculateScore
+abimeetodi.
+
+Avastasin, et peaksin esile tõstma soovitatud laudu. Pidin arvestama, et skoor tähendab siin karistuspunkte ning mida vähem, seda soovitatum on laud. Otsustasin selle teha aqua värviks. Otsin laua, mis on vaba
+ning tema skoor on madal, siis värvin hele-aquaks. Lisasin ka selgituse karistuspunktide kohta ning parimale lauale "soovitatud!" sildi. Edasi otsustasin natuke ilusamaks lehte teha. Enne seda märkasin, et tekib 
+NullPointerException probleem, kuna programm üritab null väärtust kasutada kui integer'ina, seega pidin TableController'isse lisama lisaks kontrolli
+juhul kui klient pole sisestanud size'i numbrit. Avastasin, et olin valet muutujat kasutanud (size, mitte targetSize).

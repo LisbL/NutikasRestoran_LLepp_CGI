@@ -4,7 +4,6 @@
     <meta charset="UTF-8">
     <title>Restorani Saaliplaan</title>
     <style>
-        /*Lisan CSS-i hiljem*/
         #floor-plan {
             display: grid;
             gap: 10px;
@@ -24,6 +23,7 @@
 </head>
     <body>
     <h1>Restorani saaliplaan</h1>
+    <h2>Mida vähem karistuspunkte, seda parem laud teie soovile.</h2>
     <button onclick="loadTables()">Uuenda vaadet</button>
         <div id="floor-plan"></div>
     <input type="number" id="sizeInput">
@@ -47,6 +47,18 @@
         //küsin serverilt andmed
         //puhasta vana saaliplaani (et väldiks uute laudade joonistamist vanade peale)
         //tekitan iga laua jaoks uue kasti ja paneme selle õigesse ruutu
+
+        window.onload = function() {
+            const now = new Date();
+
+            //Muudan aja formaati, mis sobib datetime-local sisendile
+            //offset eemaldab ajavööndi vahe, saaksime kohaliku aja ISO formaadis
+            const tzOffset = now.getTimezoneOffset() * 60000;
+            const localISOTime = new Date(now - tzOffset).toISOString().slice(0, 16);
+
+            document.getElementById('timeInput').min = localISOTime;
+            document.getElementById('timeInput').value = localISOTime;
+        }
 
         function loadTables() {
             //Koostan params objeckti, et saaksime sinna asju lisada
@@ -86,6 +98,10 @@
                     //Platsi puhastus
                     floorPlan.innerHTML = '';
 
+                    // Leian parima (madalaima) skoori, mis üldse saadaval on
+                    //Nimekiri on sorteeritud -> esimene laud kõige vähema punktidega
+                    const bestScore = tables.length > 0 ? tables[0].score : null;
+
                     //käin kõik lauad läbi
                     tables.forEach(table => {
                         //loon uue div-elemendi
@@ -93,7 +109,7 @@
                         tableDiv.classList.add('table-box');
 
                         //Panen kirja laua info
-                        tableDiv.innerHTML = `Laud ${table.id}<br>Kohti: ${table.size}`;
+                        tableDiv.innerHTML = `Laud ${table.id}<br>Kohti: ${table.size}<br>Karistuspunktid: ${table.score}`;
 
                         //Määran asukoha ruudustikus vastavalt Java koodist x ja y'le
                         tableDiv.style.gridColumn = table.x;
@@ -102,7 +118,12 @@
                         //Muudan värvi vastavalt laua broneeringule
                         if (table.occupied) {
                             tableDiv.style.backgroundColor = '#FF0000' //Punane ehk broneeritud
-                        }else {
+                        } else if (table.score === bestScore && (size || zone || selectedFeatures.length > 0)) {
+                            // Kui laua skoor on võrdne parima võimaliku skooriga
+                            // ja kasutaja on üldse mingeid eelistusi sisestanud
+                            tableDiv.style.backgroundColor = 'aqua';
+                            tableDiv.innerHTML += `<br><b>SOOVITATUD!</b>`;
+                        } else {
                             tableDiv.style.backgroundColor = '#008000' //Roheline ehk vaba
                         }
 

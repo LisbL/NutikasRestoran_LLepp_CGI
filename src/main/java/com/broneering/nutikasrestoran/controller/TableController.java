@@ -79,7 +79,7 @@ public class TableController {
         // transform, filter, sort, combine
         return tables.stream()
                 //Kas lauas on piisavalt kohti
-                .filter(table -> table.getSize() >= size)
+                .filter(table -> table.getSize() >= targetSize)
                 //Kas laud on vaba ajavahemikus?
                 .filter(table -> isTableAvailable(table.getId(), start, end))
                 //Lisan sorteerimise sobilikumast lauast, vähem sobilikumani, kasutades skoori
@@ -109,20 +109,23 @@ public class TableController {
     private int calculateScore(RestaurantTable table, int targetSize, String targetZone, List<String> targetFeatures) {
         int score = 0;
 
-        // tsooni eelistus - kui ei kattu +5p
-        if (targetZone != null && !targetZone.isEmpty() &&  !targetZone.equalsIgnoreCase(table.getZone())) {
-            score += 5;
+        // tsooni eelistus - kui ei kattu +10p
+        if (targetZone != null && !targetZone.isEmpty() &&  !targetZone.equalsIgnoreCase("Kõik tsoonid")) {
+            if (!targetZone.equalsIgnoreCase(table.getZone())) {
+                score += 10;
+            }
         }
-        //omaduste kontroll +2p
+        //omaduste kontroll +5p
         if (targetFeatures != null) {
             for (String feature: targetFeatures) {
                 if (!table.getFeatures().contains(feature)) {
-                    score+=2;
+                    score+=5;
                 }
             }
         }
         //suuruse vahe +1p (iga üleliigse koha kohta)
         score += (table.getSize() - targetSize);
+        table.setScore(score);
         return score;
 
     }

@@ -13,6 +13,7 @@ public class RestaurantTable {
     private int x;
     private int y;
     private String zone;
+    private int score;
 
     public RestaurantTable(long id, int size, boolean occupied,int x, int y) {
         this.id = id;
@@ -60,6 +61,14 @@ public class RestaurantTable {
 
     public String getZone() {
         return zone;
+    }
+
+    public int getScore() {
+        return score;
+    }
+
+    public void setScore(int score) {
+        this.score = score;
     }
 
     public void setOccupied(boolean occupied) {
