@@ -27,7 +27,7 @@ public class TableController {
     public TableController() {
         Random random = new Random();
 
-        for (int i = 0; i < 10; i++) {
+        for (int i = 0; i < 15; i++) {
 
             //Määran suvalise suuruse 2, 4, 6 ja 8 vahel
             int size = (random.nextInt(4) + 1)*2;
