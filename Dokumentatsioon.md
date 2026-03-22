@@ -64,4 +64,4 @@ ning tema skoor on madal, siis värvin hele-aquaks. Lisasin ka selgituse karistu
 NullPointerException probleem, kuna programm üritab null väärtust kasutada kui integer'ina, seega pidin TableController'isse lisama lisaks kontrolli
 juhul kui klient pole sisestanud size'i numbrit. Avastasin, et olin valet muutujat kasutanud (size, mitte targetSize). Leidsin CSS'i jaoks huvitava viisi pealkirja kuvada https://blog.logrocket.com/css-header-styles-cross-browser-compatibility/#typewriter-effect-html-css.
 
-See lahendus pole täiuslik, tal on omad vead näiteks skoori süsteem võiks parem olla, aga andsin endast parima.
+See lahendus pole täiuslik, tal on omad vead näiteks skoori süsteem võiks parem olla, aga andsin endast parima. Kogu selle ülesande täitmine oli õppimiskogemus, aitäh selle eest. :)
