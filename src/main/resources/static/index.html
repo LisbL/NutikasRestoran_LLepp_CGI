@@ -4,16 +4,97 @@
     <meta charset="UTF-8">
     <title>Restorani Saaliplaan</title>
     <style>
+        h1 {
+            font-family: Georgia,cursive;
+            border-right: 4px solid #000;
+            animation: cursor 1s infinite step-end, typing 15s infinite steps(16);
+            white-space: nowrap;
+            overflow: hidden;
+            margin: 20px auto;
+            width: fit-content;
+        }
+
+        cursor {
+            animation: cursor 1s infinite step-end;
+        }
+
+        @keyframes cursor{
+            0%, 100%{border-color: transparent;}
+            50%{border-color: #000;}
+        }
+
+        @keyframes typing{
+            0%{ width: 0ch} /*Text is hidden*/
+            30%{ width: 16ch;} /*The enitre header will be typed out 1 character at a time*/
+            80%{ width: 16ch;} /*Text stays visible*/
+            90%{ width: 0ch;} /*Text is deleted*/
+            100%{ width: 0ch;} /*Text stays hidden*/
+        }
+
+
+        input {
+            color: #CBE0E0;
+            background-color: #70528b;
+            padding: 10px;
+            margin: 10px;
+            font-size: 13px;
+            border-radius: 10px;
+            font-family: "Courier New",serif;
+        }
+        button {
+            padding: 20px;
+            font-size: 18px;
+            margin: 20px;
+            background-color: #a0615f;
+            color: #CBE0E0;
+            border-radius: 10px;
+            font-family: "Courier New",serif;
+        }
+        button:hover {
+            box-shadow: 10px 5px 5px #566e41;
+            cursor: pointer;
+        }
+
+        select {
+            padding: 20px;
+            font-size: 18px;
+            margin: 20px 10px;
+            background-color: #a0615f;
+            color: #CBE0E0;
+            border-radius: 10px;
+            font-family: "Courier New",serif;
+        }
+
+        label {
+            padding: 20px;
+            font-size: 18px;
+            margin: 20px;
+            border-radius: 10px;
+            font-weight: bold;
+            background-color: #CBE0E0;
+        }
+
+        Body {
+            color: #70528b;
+            text-align: center;
+            font-family: "Courier New",serif;
+            background:linear-gradient(to bottom, #aec39b, #566e41) ;
+            margin-bottom: 50px;
+        }
+
         #floor-plan {
             display: grid;
             gap: 10px;
-            border: 2px solid;
+            border: 2px ridge #445733;
+            border-radius: 10px;
             padding: 20px;
             grid-template-columns: repeat(5, 1fr);/*1fr - fractional unit, muutub akna suurusega*/
             grid-template-rows: repeat(2, 100px);
         }
         .table-box {
-            border: 1px solid black;
+            color: #CBE0E0;
+            border: 1px groove #8867a5;
+            border-radius: 5px;
             display: flex;
             align-items: center;
             justify-content: center;
@@ -26,6 +107,7 @@
     <h2>Mida vähem karistuspunkte, seda parem laud teie soovile.</h2>
     <button onclick="loadTables()">Uuenda vaadet</button>
         <div id="floor-plan"></div>
+        <div id="table-box"></div>
     <input type="number" id="sizeInput">
     <select id="zoneInput">
         <option value="">Kõik tsoonid</option>
@@ -117,14 +199,14 @@
 
                         //Muudan värvi vastavalt laua broneeringule
                         if (table.occupied) {
-                            tableDiv.style.backgroundColor = '#FF0000' //Punane ehk broneeritud
+                            tableDiv.style.backgroundColor = '#9c5e5d' //Punane ehk broneeritud
                         } else if (table.score === bestScore && (size || zone || selectedFeatures.length > 0)) {
                             // Kui laua skoor on võrdne parima võimaliku skooriga
                             // ja kasutaja on üldse mingeid eelistusi sisestanud
-                            tableDiv.style.backgroundColor = 'aqua';
+                            tableDiv.style.backgroundColor = '#558d8e';
                             tableDiv.innerHTML += `<br><b>SOOVITATUD!</b>`;
                         } else {
-                            tableDiv.style.backgroundColor = '#008000' //Roheline ehk vaba
+                            tableDiv.style.backgroundColor = '#84a567' //Roheline ehk vaba
                         }
 
                         floorPlan.appendChild(tableDiv);

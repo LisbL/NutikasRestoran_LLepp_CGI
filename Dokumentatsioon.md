@@ -62,4 +62,5 @@ abimeetodi.
 Avastasin, et peaksin esile tõstma soovitatud laudu. Pidin arvestama, et skoor tähendab siin karistuspunkte ning mida vähem, seda soovitatum on laud. Otsustasin selle teha aqua värviks. Otsin laua, mis on vaba
 ning tema skoor on madal, siis värvin hele-aquaks. Lisasin ka selgituse karistuspunktide kohta ning parimale lauale "soovitatud!" sildi. Edasi otsustasin natuke ilusamaks lehte teha. Enne seda märkasin, et tekib 
 NullPointerException probleem, kuna programm üritab null väärtust kasutada kui integer'ina, seega pidin TableController'isse lisama lisaks kontrolli
-juhul kui klient pole sisestanud size'i numbrit. Avastasin, et olin valet muutujat kasutanud (size, mitte targetSize).
+juhul kui klient pole sisestanud size'i numbrit. Avastasin, et olin valet muutujat kasutanud (size, mitte targetSize). Leidsin CSS'i jaoks huvitava viisi pealkirja kuvada https://blog.logrocket.com/css-header-styles-cross-browser-compatibility/#typewriter-effect-html-css.
+
